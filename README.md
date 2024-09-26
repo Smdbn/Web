@@ -37,6 +37,38 @@ Installation
    - Ensure MySQL is installed and running.
    - Create a new database for the application or use an existing one.
 
+   CREATE SCHEMA schema_name;
+
+   USE schema_name;
+
+   - -- Create the 'categories' table if it does not already exist
+CREATE TABLE IF NOT EXISTS categories (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) UNIQUE NOT NULL
+);
+
+-- Create the 'users' table if it does not already exist
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY, 
+  email VARCHAR(255) UNIQUE NOT NULL, 
+  username VARCHAR(255) UNIQUE NOT NULL, 
+  password VARCHAR(255) NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create the 'expenses' table if it does not already exist
+CREATE TABLE IF NOT EXISTS expenses (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId INT,
+  categoryId INT,
+  amount DECIMAL(10, 2),
+  date  DATE,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (userId) REFERENCES users(id),
+  FOREIGN KEY (categoryId) REFERENCES categories(id)
+);
+
+
    Database Configuration:
 
    - Copy the example environment file and update the database credentials:
